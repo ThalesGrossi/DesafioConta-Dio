@@ -1,15 +1,15 @@
 package entities;
 
-public class ContaCorrente {
+public class ContaPoupanca {
 
 	private int id;
 	private double saldo;
 	private Cliente cliente;
 	
-	public ContaCorrente() {
+	public ContaPoupanca() {
 	}
 
-	public ContaCorrente(int id, double saldo, Cliente cliente) {
+	public ContaPoupanca(int id, double saldo, Cliente cliente) {
 		this.id = id;
 		this.saldo = saldo;
 		this.cliente = cliente;
@@ -27,12 +27,12 @@ public class ContaCorrente {
 		return saldo;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class ContaCorrente {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ContaCorrente other = (ContaCorrente) obj;
+		ContaPoupanca other = (ContaPoupanca) obj;
 		if (id != other.id)
 			return false;
 		return true;
@@ -86,5 +86,4 @@ public class ContaCorrente {
 		this.sacar(quantia);
 		contaPoupanca.depositar(quantia);
 	}
-	
 }

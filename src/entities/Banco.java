@@ -9,7 +9,7 @@ public class Banco {
 	private String nome;
 	
 	private Set<ContaCorrente> listaCCorrente = null;
-	private Set<ContaPoupança> listaCPoupança = null;
+	private Set<ContaPoupanca> listaCPoupança = null;
 	private Set<Cliente> listaCliente = null;
 	
 	public Banco() {
@@ -34,7 +34,7 @@ public class Banco {
 		return listaCCorrente;
 	}
 
-	public Set<ContaPoupança> getListaCPoupança() {
+	public Set<ContaPoupanca> getListaCPoupança() {
 		return listaCPoupança;
 	}
 
