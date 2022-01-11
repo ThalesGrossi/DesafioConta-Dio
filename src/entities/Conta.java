@@ -2,15 +2,20 @@ package entities;
 
 public abstract class Conta {
 
+	private static int sequencial = 0;
+	
 	private int id;
 	private double saldo;
 	private Cliente cliente;
 
 	public Conta() {
+		sequencial++;
+		id = sequencial;
 	}
 
-	public Conta(int id, double saldo, Cliente cliente) {
-		this.id = id;
+	public Conta(double saldo, Cliente cliente) {
+		sequencial++;
+		id = sequencial;
 		this.saldo = saldo;
 		this.cliente = cliente;
 	}
@@ -33,28 +38,6 @@ public abstract class Conta {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Conta other = (Conta) obj;
-		if (id != other.id)
-			return false;
-		return true;
 	}
 
 	public void sacar(double quantia) {
@@ -80,6 +63,28 @@ public abstract class Conta {
 		} catch (RuntimeException e) {
 			throw new RuntimeException("Erro ao tentar transferir. Saldo insuficiente.");
 		}
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Conta other = (Conta) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 	@Override

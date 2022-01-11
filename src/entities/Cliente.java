@@ -1,21 +1,27 @@
 package entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Cliente {
 
+	private static int sequencial = 0;
+	
 	private String nome;
 	private int id;
 
-	private ContaCorrente cc;
-	private ContaPoupanca cp;
+	private Set<Conta> contas;
 
 	public Cliente() {
+		sequencial++;
+		id = sequencial;
 	}
 
-	public Cliente(String nome, int id) {
+	public Cliente(String nome) {
+		sequencial++;
 		this.nome = nome;
-		this.id = id;
-		this.cc = null;
-		this.cp = null;
+		id = sequencial;
+		this.contas = new HashSet<Conta>();
 	}
 
 	public String getNome() {
@@ -34,28 +40,8 @@ public class Cliente {
 		this.id = id;
 	}
 
-	public ContaPoupanca getContaPoupanca() {
-		return this.cp;
-	}
-
-	public void setContaPoupanca(ContaPoupanca contaPoupanca) {
-		if (cp != null) {
-			throw new RuntimeException("Erro ao criar conta poupança. Esse cliente já possui uma conta poupança.");
-		} else {
-			cp = contaPoupanca;
-		}
-	}
-
-	public ContaCorrente getContaCorrente() {
-		return this.cc;
-	}
-
-	public void setContaCorrente(ContaCorrente contaCorrente) {
-		if (cc != null) {
-			throw new RuntimeException("Erro ao criar conta corrente. Esse cliente já possui uma conta corrente.");
-		} else {
-			cc = contaCorrente;
-		}
+	public Set<Conta> getContas() {
+		return contas;
 	}
 
 	@Override
@@ -82,7 +68,7 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [nome=" + nome + ", id=" + id + ", Conta corrente=" + cc + ", Conta poupança=" + cp + "]";
+		return "Cliente [nome=" + nome + ", id=" + id + ", " + contas + "]";
 	}
 
 	

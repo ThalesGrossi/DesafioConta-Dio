@@ -2,8 +2,10 @@ package application;
 
 import entities.Banco;
 import entities.Cliente;
+import entities.Conta;
 import entities.ContaCorrente;
 import entities.ContaPoupanca;
+import entities.enums.TipoDeConta;
 
 public class Main {
 
@@ -13,21 +15,23 @@ public class Main {
 			Banco banco = new Banco("Inter");
 
 			System.out.println("========== Teste 1 - Criando clientes ==========");
-			Cliente cliente1 = new Cliente("Thales", 1);
-			Cliente cliente2 = new Cliente("Isabella", 2);
+			Cliente cliente1 = new Cliente("Thales");
+			Cliente cliente2 = new Cliente("Isabella");
 			banco.novoCliente(cliente1);
 			banco.novoCliente(cliente2);
 			System.out.println(banco);
 
 			System.out.println("\n========== Teste 2 - Criando contas ==========");
-			ContaCorrente contaCorrente1 = new ContaCorrente(1, 1000.0, cliente1);
-			ContaCorrente contaCorrente2 = new ContaCorrente(2, 2000.0, cliente2);
-			ContaPoupanca contaPoupanca1 = new ContaPoupanca(1, 4000.0, cliente1);
-			ContaPoupanca contaPoupanca2 = new ContaPoupanca(2, 8000.0, cliente2);
-			banco.abrirContaCorrente(contaCorrente1);
-			banco.abrirContaCorrente(contaCorrente2);
-			banco.abrirContaPoupanca(contaPoupanca1);
-			banco.abrirContaPoupanca(contaPoupanca2);
+			Conta contaCorrente1 = new ContaCorrente(1000.0, cliente1);
+			Conta contaCorrente2 = new ContaCorrente(2000.0, cliente2);
+			Conta contaPoupanca1 = new ContaPoupanca(4000.0, cliente1);
+			Conta contaPoupanca2 = new ContaPoupanca(8000.0, cliente2);
+			TipoDeConta corrente = TipoDeConta.CORRENTE;
+			TipoDeConta poupanca = TipoDeConta.POUPANCA;
+			banco.abrirConta(contaCorrente1, corrente);
+			banco.abrirConta(contaCorrente2, corrente);
+			banco.abrirConta(contaPoupanca1, poupanca);
+			banco.abrirConta(contaPoupanca2, poupanca);
 			System.out.println(banco);
 			
 			System.out.println("\n========== Teste 3 - Depositando ==========");

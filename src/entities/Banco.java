@@ -1,15 +1,16 @@
 package entities;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
+
+import entities.enums.TipoDeConta;
 
 public class Banco {
 
 	private String nome;
 
-	private Set<ContaCorrente> listaCCorrente;
-	private Set<ContaPoupanca> listaCPoupanca;
+	private Set<ContaCorrente> listaCC;
+	private Set<ContaPoupanca> listaPoupanca;
 	private Set<Cliente> listaCliente;
 
 	public Banco() {
@@ -17,8 +18,8 @@ public class Banco {
 
 	public Banco(String nome) {
 		this.nome = nome;
-		listaCCorrente = new HashSet<>();
-		listaCPoupanca = new HashSet<>();
+		listaCC = new HashSet<>();
+		listaPoupanca = new HashSet<>();
 		listaCliente = new HashSet<>();
 	}
 
@@ -31,11 +32,11 @@ public class Banco {
 	}
 
 	public Set<ContaCorrente> getListaCCorrente() {
-		return listaCCorrente;
+		return listaCC;
 	}
 
 	public Set<ContaPoupanca> getListaCPoupanca() {
-		return listaCPoupanca;
+		return listaPoupanca;
 	}
 
 	public Set<Cliente> getListaCliente() {
@@ -44,7 +45,7 @@ public class Banco {
 
 	public void novoCliente(Cliente cliente) {
 		try {
-			if (listaCliente.contains(cliente)){
+			if (listaCliente.contains(cliente)) {
 				throw new RuntimeException("Erro ao criar cliente. Já existe um cliente com este id.");
 			} else {
 				listaCliente.add(cliente);
@@ -53,27 +54,47 @@ public class Banco {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	public void abrirContaCorrente(ContaCorrente contaCorrente) {
+
+	public void abrirConta(Conta conta, TipoDeConta tipo) {
 		try {
-			if (listaCCorrente.contains(contaCorrente)) {
-				throw new RuntimeException("Erro ao abrir conta corrente. Já existe uma conta corrente com esse id.");
-			} else {
-				contaCorrente.getCliente().setContaCorrente(contaCorrente);
-				listaCCorrente.add(contaCorrente);
+			switch(tipo) {
+				case CORRENTE:
+					abrirCC(conta);
+					break;
+				case POUPANCA:
+					abrirCP(conta);
+					break;
 			}
 		} catch (RuntimeException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-	public void abrirContaPoupanca(ContaPoupanca contaPoupanca) {
+	private void abrirCP(Conta conta) {
+		if (listaPoupanca.contains(conta)) {
+			throw new RuntimeException("Erro ao abrir conta corrente. Já existe uma conta corrente com esse id.");
+		} else {
+			conta.getCliente().getContas().add(conta);
+			listaPoupanca.add((ContaPoupanca)conta);
+		}
+	}
+
+	private void abrirCC(Conta conta) {
+		if (listaCC.contains(conta)) {
+			throw new RuntimeException("Erro ao abrir conta corrente. Já existe uma conta corrente com esse id.");
+		} else {
+			conta.getCliente().getContas().add(conta);
+			listaCC.add((ContaCorrente)conta);
+		}
+	}
+
+	public void abrirContaPoupanca(ContaPoupanca poupanca) {
 		try {
-			if (listaCPoupanca.contains(contaPoupanca)) {
+			if (listaPoupanca.contains(poupanca)) {
 				throw new RuntimeException("Erro ao abrir conta poupança. Já existe uma conta poupança com esse id.");
 			} else {
-				contaPoupanca.getCliente().setContaPoupanca(contaPoupanca);
-				listaCPoupanca.add(contaPoupanca);
+				poupanca.getCliente().getContas().add(poupanca);
+				listaPoupanca.add(poupanca);
 			}
 		} catch (RuntimeException e) {
 			System.out.println(e.getMessage());
@@ -88,25 +109,25 @@ public class Banco {
 		}
 		return null;
 	}
-	
+
 	public ContaCorrente obterCCorrentePeloId(int id) {
-		for (ContaCorrente cc : listaCCorrente) {
+		for (ContaCorrente cc : listaCC) {
 			if (cc.getId() == id) {
 				return cc;
 			}
 		}
 		return null;
 	}
-	
+
 	public ContaPoupanca obterCPoupancaPeloId(int id) {
-		for (ContaPoupanca cp : listaCPoupanca) {
+		for (ContaPoupanca cp : listaPoupanca) {
 			if (cp.getId() == id) {
 				return cp;
 			}
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Banco [nome=" + nome + ", Clientes=" + listaCliente + "]";

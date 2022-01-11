@@ -6,12 +6,12 @@ public class ContaCorrente extends Conta {
 		super();
 	}
 	
-	public ContaCorrente(int id, double saldo, Cliente cliente) {
-		super(id, saldo, cliente);
+	public ContaCorrente(double saldo, Cliente cliente) {
+		super(saldo, cliente);
 	}
 	
 	@Override
 	public String toString() {
-		return "[id=" + super.getId() + ", saldo=" + super.getSaldo() + "]";
+		return "Conta corrente=[id=" + super.getId() + ", saldo=" + super.getSaldo() + "]";
 	}
 }

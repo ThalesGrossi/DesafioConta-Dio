@@ -6,12 +6,12 @@ public class ContaPoupanca extends Conta {
 		super();
 	}
 	
-	public ContaPoupanca(int id, double saldo, Cliente cliente) {
-		super(id, saldo, cliente);
+	public ContaPoupanca(double saldo, Cliente cliente) {
+		super(saldo, cliente);
 	}
 	
 	@Override
 	public String toString() {
-		return "[id=" + super.getId() + ", saldo=" + super.getSaldo() + "]";
+		return "Poupança=[id=" + super.getId() + ", saldo=" + super.getSaldo() + "]";
 	}
 }
