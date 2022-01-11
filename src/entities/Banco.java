@@ -9,8 +9,8 @@ public class Banco {
 
 	private String nome;
 
-	private Set<ContaCorrente> listaCC;
-	private Set<ContaPoupanca> listaPoupanca;
+	private Set<ContaCorrente> contasC;
+	private Set<ContaPoupanca> contasP;
 	private Set<Cliente> listaCliente;
 
 	public Banco() {
@@ -18,8 +18,8 @@ public class Banco {
 
 	public Banco(String nome) {
 		this.nome = nome;
-		listaCC = new HashSet<>();
-		listaPoupanca = new HashSet<>();
+		contasC = new HashSet<>();
+		contasP = new HashSet<>();
 		listaCliente = new HashSet<>();
 	}
 
@@ -31,14 +31,14 @@ public class Banco {
 		this.nome = nome;
 	}
 
-	public Set<ContaCorrente> getListaCCorrente() {
-		return listaCC;
+	public Set<ContaCorrente> getContasC() {
+		return contasC;
 	}
 
-	public Set<ContaPoupanca> getListaCPoupanca() {
-		return listaPoupanca;
+	public Set<ContaPoupanca> getContasP() {
+		return contasP;
 	}
-
+	
 	public Set<Cliente> getListaCliente() {
 		return listaCliente;
 	}
@@ -71,33 +71,20 @@ public class Banco {
 	}
 
 	private void abrirCP(Conta conta) {
-		if (listaPoupanca.contains(conta)) {
-			throw new RuntimeException("Erro ao abrir conta corrente. Já existe uma conta corrente com esse id.");
+		if (contasP.contains(conta)) {
+			throw new RuntimeException("Erro ao abrir conta poupanca. Já existe uma conta corrente com esse id.");
 		} else {
 			conta.getCliente().getContas().add(conta);
-			listaPoupanca.add((ContaPoupanca)conta);
+			contasP.add((ContaPoupanca)conta);
 		}
 	}
 
 	private void abrirCC(Conta conta) {
-		if (listaCC.contains(conta)) {
+		if (contasC.contains(conta)) {
 			throw new RuntimeException("Erro ao abrir conta corrente. Já existe uma conta corrente com esse id.");
 		} else {
 			conta.getCliente().getContas().add(conta);
-			listaCC.add((ContaCorrente)conta);
-		}
-	}
-
-	public void abrirContaPoupanca(ContaPoupanca poupanca) {
-		try {
-			if (listaPoupanca.contains(poupanca)) {
-				throw new RuntimeException("Erro ao abrir conta poupança. Já existe uma conta poupança com esse id.");
-			} else {
-				poupanca.getCliente().getContas().add(poupanca);
-				listaPoupanca.add(poupanca);
-			}
-		} catch (RuntimeException e) {
-			System.out.println(e.getMessage());
+			contasC.add((ContaCorrente)conta);
 		}
 	}
 
@@ -110,19 +97,27 @@ public class Banco {
 		return null;
 	}
 
-	public ContaCorrente obterCCorrentePeloId(int id) {
-		for (ContaCorrente cc : listaCC) {
-			if (cc.getId() == id) {
-				return cc;
+	public Conta obterContaPeloId(int id) {
+		Conta conta = obterContaCorrentePeloId(id);
+		if(conta == null) {
+			return obterContaPoupancaPeloId(id);
+		}
+		return conta;
+	}
+	
+	public Conta obterContaCorrentePeloId(int id) {
+		for (Conta c : contasC) {
+			if (c.getId() == id){
+				return c;
 			}
 		}
 		return null;
 	}
-
-	public ContaPoupanca obterCPoupancaPeloId(int id) {
-		for (ContaPoupanca cp : listaPoupanca) {
-			if (cp.getId() == id) {
-				return cp;
+	
+	public Conta obterContaPoupancaPeloId(int id) {
+		for (Conta p : contasP) {
+			if (p.getId() == id){
+				return p;
 			}
 		}
 		return null;
