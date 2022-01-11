@@ -4,16 +4,18 @@ public class Cliente {
 
 	private String nome;
 	private int id;
-	
-	ContaCorrente cc;
-	ContaPoupanca cp;
-	
+
+	private ContaCorrente cc;
+	private ContaPoupanca cp;
+
 	public Cliente() {
 	}
 
 	public Cliente(String nome, int id) {
 		this.nome = nome;
 		this.id = id;
+		this.cc = null;
+		this.cp = null;
 	}
 
 	public String getNome() {
@@ -31,21 +33,29 @@ public class Cliente {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public ContaPoupanca getContaPoupanca() {
 		return this.cp;
 	}
 
 	public void setContaPoupanca(ContaPoupanca contaPoupanca) {
-		this.cp = contaPoupanca;
+		if (cp != null) {
+			throw new RuntimeException("Erro ao criar conta poupança. Esse cliente já possui uma conta poupança.");
+		} else {
+			cp = contaPoupanca;
+		}
 	}
-	
+
 	public ContaCorrente getContaCorrente() {
 		return this.cc;
 	}
 
 	public void setContaCorrente(ContaCorrente contaCorrente) {
-		this.cc = contaCorrente;
+		if (cc != null) {
+			throw new RuntimeException("Erro ao criar conta corrente. Esse cliente já possui uma conta corrente.");
+		} else {
+			cc = contaCorrente;
+		}
 	}
 
 	@Override
@@ -69,12 +79,11 @@ public class Cliente {
 			return false;
 		return true;
 	}
-	
-	public void abrirContaCorrente(int id, double saldo) {
-		cc = new ContaCorrente(id, saldo, this);
+
+	@Override
+	public String toString() {
+		return "Cliente [nome=" + nome + ", id=" + id + ", Conta corrente=" + cc + ", Conta poupança=" + cp + "]";
 	}
+
 	
-	public void abrirContaPoupanca(int id, double saldo) {
-		cp = new ContaPoupanca(id, saldo, this);
-	}
 }

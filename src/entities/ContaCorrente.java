@@ -5,7 +5,7 @@ public class ContaCorrente {
 	private int id;
 	private double saldo;
 	private Cliente cliente;
-	
+
 	public ContaCorrente() {
 	}
 
@@ -56,35 +56,40 @@ public class ContaCorrente {
 			return false;
 		return true;
 	}
-	
+
 	public void sacar(double quantia) {
-		try {
-			if (saldoSuficiente(quantia)) {
-				saldo -= quantia;
-			} else {
-				throw new RuntimeException("Erro ao tentar sacar. Saldo insuficiente");
-			}
-		} catch (RuntimeException e) {
-			System.out.println(e.getMessage());
+		if (saldoSuficiente(quantia)) {
+			saldo -= quantia;
+		} else {
+			throw new RuntimeException("Erro ao tentar sacar. Saldo insuficiente");
 		}
 	}
 
 	private boolean saldoSuficiente(double quantia) {
 		return saldo > quantia;
 	}
-	
+
 	public void depositar(double quantia) {
-		saldo +=quantia;
+		saldo += quantia;
 	}
-	
+
 	public void transferir(ContaCorrente contaCorrente, double quantia) {
-		this.sacar(quantia);
+		try {
 		contaCorrente.depositar(quantia);
-	}
-	
-	public void transferir(ContaPoupanca contaPoupanca, double quantia) {
 		this.sacar(quantia);
-		contaPoupanca.depositar(quantia);
+		} catch (RuntimeException e) {
+			throw new RuntimeException("Erro ao tentar transferir. Saldo insuficiente.");
+		}
 	}
-	
+
+	public void transferir(ContaPoupanca contaPoupanca, double quantia) {
+		contaPoupanca.depositar(quantia);
+		this.sacar(quantia);
+	}
+
+	@Override
+	public String toString() {
+		return "[id=" + id + ", saldo=" + saldo + "]";
+	}
+
 }
